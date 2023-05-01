@@ -11,7 +11,9 @@ class StoreAccreditRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // TODO: Mettere i dovuti controlli
+
+        return true;
     }
 
     /**
@@ -21,8 +23,18 @@ class StoreAccreditRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        return[
+            'customer_company' => ['required', 'max:255'],
+            'customer_email' => ['required', 'email'],
+            'customer_name' => ['required', 'max:127'],
+            'customer_id' => ['required', 'alpha_dash', 'max:127'],
+            'pin' => ['required', 'max:255'],
+            'machine' => ['max:127'],
+            'duration' => ['required', 'integer'],
+            'language' => ['required', 'max:2'],
+            'level' => ['required', 'integer', 'between:1,7'],
+            'format' => ['max:127'],
+            'display_type' => ['required', 'max:5'],
         ];
     }
 }

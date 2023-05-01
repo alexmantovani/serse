@@ -15,20 +15,42 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+    <div class="py-4 flex px-32">
+        <div class="flex-1">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg px-5 flex-1">
+
+
+                <form method="GET" action="{{ route('accredit.index') }}">
+                    <div class="flex my-4 rounded-md border border-gray-300">
+                        <!-- Email Address -->
+                        <div class="flex w-full">
+                            <input
+                                class="mr-3 border-0 focus:ring-0 focus:ring-slate-300 focus:outline-none appearance-none w-full  text-slate-900 placeholder-slate-400 rounded-md py-2 pl-3 ring-0"
+                                type="text" aria-label="Search" placeholder="Cerca..." value="{{ $search ?? '' }}"
+                                name="search" autofocus>
+                        </div>
+
+                        <div class=" flex-none items-center p-1">
+                            <x-primary-button class="ml-3 h-12 w-12">
+                                <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                            </x-primary-button>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class=" text-right text-sm text-gray-400">
+                    Trovati {{ $accredits->total() }} risultati
                 </div>
 
-                <table class="table">
+                <table class="table-auto w-full mb-6">
                     <tbody>
                         @foreach ($accredits as $accredit)
-                            <tr>
-                                <td>
-                                    <div class="pb-2 d-flex" style="text-align: left; color: #AAAAAA;">
-                                        <div class="d-flex">
-                                            <div class="pr-2"
+                            <tr class="border-t border-dotted">
+                                <td class="w-full pr-4 py-3">
+                                    <div class="flex text-stone-500 justify-between">
+                                        <div class="flex">
+                                            <div class="pr-2 pt-1.5"
                                                 @if (isset($accredit->downloaded_at)) title="Scaricato il {{ Carbon\Carbon::parse($accredit->downloaded_at) }}" @endif>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.58 240"
                                                     width="12px" height="14px"
@@ -40,31 +62,23 @@
                                                     <rect class="cls-2" x="55.61" width="100.04" height="18.4" />
                                                 </svg>
                                             </div>
-                                            <div class=""
+                                            <div class=" text-stone-500"
                                                 title="Creato il {{ Carbon\Carbon::parse($accredit->created_at) }}">
                                                 {{ Carbon\Carbon::parse($accredit->created_at)->diffForHumans() }}
                                             </div>
-                                            &nbsp;&nbsp;&centerdot;&nbsp;&nbsp;
-                                            <div class="">
-                                                {{ $accredit->user->name }}
-                                            </div>
+                                        </div>
+
+                                        <div class="">
+                                            {{ $accredit->user->name }}
                                         </div>
                                     </div>
 
-                                    <div class="" style="text-align: left; color: #000;">
-                                        <div class="" style="">
-                                            <h5>
-                                                <strong>
-                                                    {{ $accredit->customer_company }} - {{ $accredit->customer_email }}
-                                                </strong>
-                                            </h5>
-                                        </div>
-                                    </div>
-
-                                    {{-- <div class="d-flex"
-                                        style="color: {{ $accredit->level == 7 ? '#AA0000' : '#00AA00' }}"> --}}
-                                    <div class="d-flex {{ $accredit->level == 7 ? 'text-red' : 'text-green' }}">
+                                    <div class=" text-xl font-semibold text-stone-700 flex justify-between">
                                         <div>
+                                            {{ $accredit->customer_company }}
+                                        </div>
+                                        <div
+                                            class="{{ $accredit->level == 7 ? 'text-red-500' : 'text-green-500' }} text-base">
                                             <strong>
                                                 @if ($accredit->level == 7)
                                                     Super Utente
@@ -77,10 +91,21 @@
                                                 {{ strtoupper($accredit->display_type) }}
                                             </strong>
                                         </div>
+                                    </div>
 
-                                        <div class="ml-auto" style="color: #555555">
+                                    {{-- <div class="d-flex"
+                                        style="color: {{ $accredit->level == 7 ? '#AA0000' : '#00AA00' }}"> --}}
+                                    <div class="flex">
+                                        <div class=" items-center text-stone-400 flex">
+                                            <i class="far fa-envelope"></i>
+                                            <div class="pl-1">
+                                                {{ $accredit->customer_email }}
+                                            </div>
+                                        </div>
+
+                                        <div class="ml-auto text-stone-500">
                                             Macchine:
-                                            <strong>
+                                            <strong class="text-stone-700">
                                                 @if ($accredit->machine == 'all')
                                                     Tutte
                                                 @else
@@ -91,17 +116,64 @@
                                     </div>
                                 </td>
 
-                                <td style="width: 90px;">
-                                    <a href="{{ route('accredit.show', $accredit->token) }}"
-                                        class="btn btn-outline-primary mt-4">Dettagli</a>
+                                <td class="text-right w-min">
+                                    <a href="{{ route('accredit.show', $accredit->token) }}">
+                                        <x-outline-button class="">
+                                            Dettagli
+                                        </x-outline-button>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
 
+            </div>
 
+            <div class="pt-6 mb-0 pb-0 mx-6">
+                <?php echo $accredits->appends(['search' => $search])->links(); ?>
             </div>
         </div>
+        <div class="flex-0 w-80 ml-6">
+            <div class=" bg-yellow-50 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex-1 mb-5">
+                <div class="p-5">
+                    <div class="text-lg font-semibold">
+                        Verifica accredito
+                    </div>
+                    <div class="border border-1 border-yellow-400 rounded-md text-yellow-400 p-4 my-3">
+                        Trascina qui il file accredito che vuoi verificare
+                    </div>
+                </div>
+            </div>
+
+
+            <div class=" bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex-1 mb-5">
+                <div class="p-5">
+                    <div class="text-lg font-semibold">
+                        Negli ultimi 30 giorni
+                    </div>
+                    <div class="py-3 text-gray-500">
+                        La Top Ten degli utenti che hanno creato più accrediti
+                    </div>
+
+                    <div class="px-3">
+                        @foreach ($topten->get() as $item)
+                            <div class="flex justify-between py-1">
+                                <div>
+                                    {{ $loop->index + 1 }}.
+                                    <strong>
+                                        {{ $item->user->name }}
+                                    </strong>
+                                </div>
+                                <div class=" text-right">
+                                    {{ $item->created }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </x-app-layout>

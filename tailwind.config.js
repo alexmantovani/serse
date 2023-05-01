@@ -16,5 +16,17 @@ module.exports = {
         },
     },
 
+    safelist: [
+        'text-2xl',
+        'text-3xl',
+        {
+            pattern: /bg-(red|green|blue|yellow)-.+/,
+            variants: ['lg', 'hover', 'focus', 'lg:hover'],
+        },
+        {
+            pattern: /text-(red|green|blue|yellow)-.+/,
+        },
+    ],
+
     plugins: [require('@tailwindcss/forms')],
 };

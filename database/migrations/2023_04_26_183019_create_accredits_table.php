@@ -27,6 +27,8 @@ return new class extends Migration
             $table->tinyInteger('duration')->default(5);
             $table->tinyInteger('level')->default(7);
             $table->timestamp('downloaded_at')->nullable();
+            $table->string('display_type')->default('ed1');
+            $table->string('format')->default('all');
 
             $table->timestamps();
         });
