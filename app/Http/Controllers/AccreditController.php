@@ -52,8 +52,6 @@ class AccreditController extends Controller
      */
     public function store(StoreAccreditRequest $request)
     {
-        dd($request);
-
         $request->validate([
             'customer_company' => ['required', 'max:255'],
             'customer_email' => ['required', 'email'],

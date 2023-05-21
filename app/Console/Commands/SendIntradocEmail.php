@@ -28,7 +28,10 @@ class SendIntradocEmail extends Command
     {
         $this->info('- Start job intradoc-email:send');
 
-        $missings = MissingTranslation::pending();
+        // TODO: Questa roba va tolta e va inviata ad Intradoc la roba giusta
+        // $missings = MissingTranslation::pending();
+
+        $missings = MissingTranslation::pending()['es'];
         if ( $missings->count() == 0 ) return;
 
         // $this->info(MissingTranslation::pending()['es']);
@@ -36,6 +39,13 @@ class SendIntradocEmail extends Command
         foreach ($missings as $missingTranslation) {
             $missingTranslation->update([
                 'status' => 'waiting',
+            ]);
+        }
+
+        $missings = MissingTranslation::limit(100)->get();
+        foreach ($missings as $missingTranslation) {
+            $missingTranslation->update([
+                'status' => 'translated',
             ]);
         }
 
