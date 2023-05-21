@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
 use Response;
+use Illuminate\Http\Request;
+
 
 class AccreditController extends Controller
 {
@@ -50,19 +52,21 @@ class AccreditController extends Controller
      */
     public function store(StoreAccreditRequest $request)
     {
-        // $request->validate([
-        //     'customer_company' => ['required', 'max:255'],
-        //     'customer_email' => ['required', 'email'],
-        //     'customer_name' => ['required', 'max:127'],
-        //     'customer_id' => ['required', 'alpha_dash', 'max:127'],
-        //     'pin' => ['required', 'max:255'],
-        //     'machine' => ['max:127'],
-        //     'duration' => ['required', 'integer'],
-        //     'language' => ['required', 'max:2'],
-        //     'level' => ['required', 'integer', 'between:1,7'],
-        //     'format' => ['max:127'],
-        //     'display_type' => ['required', 'max:5'],
-        // ]);
+        dd($request);
+
+        $request->validate([
+            'customer_company' => ['required', 'max:255'],
+            'customer_email' => ['required', 'email'],
+            'customer_name' => ['required', 'max:127'],
+            'customer_id' => ['required', 'alpha_dash', 'max:127'],
+            'pin' => ['required', 'max:255'],
+            'machine' => ['max:127'],
+            'duration' => ['required', 'integer'],
+            'language' => ['required', 'max:2'],
+            'level' => ['required', 'integer', 'between:1,7'],
+            'format' => ['max:127'],
+            'display_type' => ['required', 'max:5'],
+        ]);
 
         $token = Str::uuid()->toString();
 
@@ -214,6 +218,35 @@ class AccreditController extends Controller
         }
 
         abort(404);
+    }
+
+    public function report(Request $request)
+    {
+        $path = public_path('accredits', 'tmp_file') . '/tmp_file';
+
+        $cmd_str = 'python3 ' . resource_path('python') . "/accreditcheck.py  " . $path;
+        system($cmd_str, $retval);
+
+        $json = NULL;
+        if ($retval == 0) {
+            $json = json_decode(file_get_contents($path . '.json'), true);
+        }
+
+        // Cancello il file
+        if (file_exists($path)) unlink($path);
+        if (file_exists($path . '.json')) unlink($path . '.json');
+
+        return view('accredit.report', compact('json'));
+    }
+
+    public function upload(Request $request)
+    {
+        $file = $request->file('file');
+        $esito = $file->move(public_path('accredits'), 'tmp_file');
+
+        Log::debug('stikazzi '. $esito);
+
+        return response()->json(['success' => $esito]);
     }
 
 }

@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Accredit') }}
+                {{ __('Accrediti') }}
             </h2>
             <div>
                 <form method="GET" action="{{ route('accredit.create') }}">
@@ -50,7 +50,7 @@
                                 <td class="w-full pr-4 py-3">
                                     <div class="flex text-stone-500 justify-between">
                                         <div class="flex">
-                                            <div class="pr-2 pt-1.5"
+                                            <div class="pr-2 pt-0.5"
                                                 @if (isset($accredit->downloaded_at)) title="Scaricato il {{ Carbon\Carbon::parse($accredit->downloaded_at) }}" @endif>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.58 240"
                                                     width="12px" height="14px"
@@ -62,13 +62,13 @@
                                                     <rect class="cls-2" x="55.61" width="100.04" height="18.4" />
                                                 </svg>
                                             </div>
-                                            <div class=" text-stone-500"
+                                            <div class=" text-stone-500 text-xs"
                                                 title="Creato il {{ Carbon\Carbon::parse($accredit->created_at) }}">
                                                 {{ Carbon\Carbon::parse($accredit->created_at)->diffForHumans() }}
                                             </div>
                                         </div>
 
-                                        <div class="">
+                                        <div class=" text-xs">
                                             {{ $accredit->user->name }}
                                         </div>
                                     </div>
@@ -95,7 +95,7 @@
 
                                     {{-- <div class="d-flex"
                                         style="color: {{ $accredit->level == 7 ? '#AA0000' : '#00AA00' }}"> --}}
-                                    <div class="flex">
+                                    <div class="flex text-xs">
                                         <div class=" items-center text-stone-400 flex">
                                             <i class="far fa-envelope"></i>
                                             <div class="pl-1">
@@ -135,14 +135,31 @@
             </div>
         </div>
         <div class="flex-0 w-80 ml-6">
-            <div class=" bg-yellow-50 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex-1 mb-5">
+            <div class=" bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex-1 mb-5">
                 <div class="p-5">
                     <div class="text-lg font-semibold">
-                        Verifica accredito
+                        {{ __('Verifica accredito') }}
                     </div>
-                    <div class="border border-1 border-yellow-400 rounded-md text-yellow-400 p-4 my-3">
-                        Trascina qui il file accredito che vuoi verificare
-                    </div>
+
+                    <form method="post" action="{{ route('accredit.upload') }}" enctype="multipart/form-data"
+                        class="dropzone border border-gray-500 rounded-md border-dashed bg-indigo-50 text-gray-500 p-4 my-3"
+                        id="dropzone">
+                        @csrf
+                        <div class="dz-message text-center">Clicca o trascina qui il file accredito che vuoi verificare</div>
+                    </form>
+                    <script type="text/javascript">
+                        var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+                        Dropzone.options.dropzone = {
+                            paramName: "file",
+                            maxFilesize: 30, // MB
+                            // acceptedFiles: ".accr",
+                            queuecomplete: function(file, response) {
+                                console.log(file + ' ' + response);
+                                window.location.href = '{{ route('accredit.report') }}';
+                            }
+                        };
+                    </script>
+
                 </div>
             </div>
 
@@ -160,7 +177,7 @@
                         @foreach ($topten->get() as $item)
                             <div class="flex justify-between py-1">
                                 <div>
-                                    {{ $loop->index + 1 }}.
+                                    {{ $loop->index + 1 }} &middot;
                                     <strong>
                                         {{ $item->user->name }}
                                     </strong>

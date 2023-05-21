@@ -1,9 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Dettaglio accredito') }}
-            </h2>
+            <div class="flex items-center">
+                <div class="pr-3 text-lg cursor-pointer text-gray-800 dark:text-gray-200">
+                    <a onclick="window.history.back();"><i class="fa fa-angle-left"></i></a>
+                </div>
+
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ __('Dettaglio accredito') }}
+                </h2>
+            </div>
         </div>
     </x-slot>
 

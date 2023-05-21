@@ -29,11 +29,26 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/accredit/report', [App\Http\Controllers\AccreditController::class, 'report'])->name('accredit.report');
     Route::resource('/accredit', App\Http\Controllers\AccreditController::class);
     Route::get('/accredit/download/{token}', [App\Http\Controllers\AccreditController::class, 'download'])->name('accredit.download');
     Route::get('/accredit/tutorial/{type}', [App\Http\Controllers\AccreditController::class, 'tutorial'])->name('accredit.tutorial');
     Route::get('/accredit/resend/{token}', [App\Http\Controllers\AccreditController::class, 'resend'])->name('accredit.resend');
     Route::get('/accredit/show/{token}', [App\Http\Controllers\AccreditController::class, 'show'])->name('accredit.show');
+    Route::post('/accredit/upload', [App\Http\Controllers\AccreditController::class, 'upload'])->name('accredit.upload');
+
+    // Pagina per caricamento traduzioni
+    Route::get('/missing/load', [App\Http\Controllers\MissingTranslationController::class, 'load'])->name('missing.load');
+    Route::post('/missing/upload', [App\Http\Controllers\MissingTranslationController::class, 'upload'])->name('missing.upload');
+
+    Route::get('/missing/send', [App\Http\Controllers\MissingTranslationController::class, 'send'])->name('missing.send');
+    Route::get('/missing/verify', [App\Http\Controllers\MissingTranslationController::class, 'verifyBeforeSend'])->name('missing.verify');
+    Route::get('/missing/index', [App\Http\Controllers\MissingTranslationController::class, 'index'])->name('missing.index');
+    Route::get('/missing/show/{id}', [App\Http\Controllers\MissingTranslationController::class, 'show'])->name('missing.show');
+
+    // Route::get('/translation/index', [App\Http\Controllers\TranslationController::class, 'index'])->name('translation.index');
+    Route::resource('/translation', App\Http\Controllers\TranslationController::class);
+
 });
 
 require __DIR__.'/auth.php';

@@ -25,5 +25,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        for ($i = 0; $i < 10; $i++) {
+            $serialNumber = \App\Models\SerialNumber::factory()->create();
+            \App\Models\MissingTranslation::factory(rand(50, 200))->create([
+                'serial_number' => $serialNumber->name,
+            ]);
+        }
     }
 }

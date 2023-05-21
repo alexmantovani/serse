@@ -25,34 +25,6 @@
             </select>
         </div>
 
-
-        {{-- <div class="form-group row">
-            <label for="display_type" class="col-md-4 col-form-label text-md-right">{{ __('Tipo di display') }}</label>
-
-            <div class="col-md-6">
-                <select id="display_type" class="form-control" name="display_type" wire:model.refer="display_type">>
-                    <option value="ed1" selected>Dismac / ED1.0 / ED1.1</option>
-                    <option value="ed1.2" selected>ED1.2</option>
-                    <option value="ed2">ED2.xx</option>
-                </select>
-            </div>
-        </div> --}}
-
-        {{-- <div class="form-group row">
-            <label for="level" class="col-md-4 col-form-label text-md-right">{{ __('Tipo di accredito') }}</label>
-
-            <div class="col-md-6">
-                <select id="level" class="form-control" name="level" wire:model.refer="accredit_type">
-                    <option value="7" selected>Super utente</option>
-                    <option value="6">Amministratore formati</option>
-                    <option value="4">Livello 4</option>
-                    <option value="3">Livello 3</option>
-                    <option value="2">Livello 2</option>
-                    <option value="1">Livello 1</option>
-                </select>
-            </div>
-        </div> --}}
-
         <div class="py-3">
             <x-input-label for="customer_email" :value="__('Email destinatario')" />
             <x-text-input id="customer_email" class="block mt-1 w-full" type="email" name="customer_email"
@@ -60,45 +32,12 @@
             <x-input-error :messages="$errors->get('customer_email')" class="mt-2" />
         </div>
 
-        {{-- <div class="form-group row">
-            <label for="customer_email"
-                class="col-md-4 col-form-label text-md-right">{{ __('Email destinatario') }}</label>
-
-            <div class="col-md-6">
-                <input id="customer_email" type="email"
-                    class="form-control @error('customer_email') is-invalid @enderror" name="customer_email"
-                    value="{{ old('customer_email') }}">
-
-                @error('customer_email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-        </div> --}}
-
         <div class="py-3">
             <x-input-label for="customer_company" :value="__('Azienda')" />
             <x-text-input id="customer_company" class="block mt-1 w-full" type="text" name="customer_company"
                 :value="old('customer_company')" required />
             <x-input-error :messages="$errors->get('customer_company')" class="mt-2" />
         </div>
-
-        {{-- <div class="form-group row">
-            <label for="customer_company" class="col-md-4 col-form-label text-md-right">{{ __('Azienda') }}</label>
-
-            <div class="col-md-6">
-                <input id="customer_company" type="text"
-                    class="form-control @error('customer_company') is-invalid @enderror" name="customer_company"
-                    value="{{ old('customer_company') }}">
-
-                @error('customer_company')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-        </div> --}}
 
         <input type="hidden" id="language" name="language" value="it">
 
@@ -112,27 +51,6 @@
                 (es.:"M3200040:N6200047")
             </small>
         </div>
-
-        {{-- <div class="form-group row">
-            <label for="machine" class="col-md-4 col-form-label text-md-right">{{ __('Matricola') }}</label>
-
-            <div class="col-md-6">
-                <input id="machine" type="text" class="form-control @error('machine') is-invalid @enderror"
-                    name="machine" value="" placeholder="all">
-
-                @error('machine')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="col-md-6 offset-md-4" style="color: rgb(170, 170, 170)">
-                <small>
-                    Per specificare una o più macchine inserisci le matricole separate dal carattere ":"
-                    (es.:"M3200040:N6200047")
-                </small>
-            </div>
-        </div> --}}
 
 
         <div class="form-group row">
@@ -156,23 +74,6 @@
                         value="Temporary Superuser" required />
                     <x-input-error :messages="$errors->get('username')" class="mt-2" />
                 </div>
-
-                {{-- <div class="form-group row">
-                    <label for="customer_name"
-                        class="col-md-4 col-form-label text-md-right">{{ __('User Name') }}</label>
-
-                    <div class="col-md-6">
-                        <input id="customer_name" type="text"
-                            class="form-control @error('customer_name') is-invalid @enderror" name="customer_name"
-                            value="Temporary Superuser">
-
-                        @error('customer_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div> --}}
             @else
                 @if ($accredit_type == '7')
                     <input type="hidden" id="customer_name" name="customer_name" value="Temporary Superuser">
@@ -191,22 +92,6 @@
                         value="superuser" required />
                     <x-input-error :messages="$errors->get('customer_id')" class="mt-2" />
                 </div>
-
-                {{-- <div class="form-group row">
-                    <label for="customer_id" class="col-md-4 col-form-label text-md-right">{{ __('User Id') }}</label>
-
-                    <div class="col-md-6">
-                        <input id="customer_id" type="text"
-                            class="form-control @error('customer_id') is-invalid @enderror" name="customer_id"
-                            value="superuser">
-
-                        @error('customer_id')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div> --}}
             @else
                 @if ($accredit_type == '7')
                     <input type="hidden" id="customer_id" name="customer_id" value="superuser">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MissingTranslationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// http://127.0.0.1:8000/api/contact/index
+Route::prefix('/translation')->group(function() {
+    // Route::get('/index', [ContactController::class, 'index'])->middleware('auth:api');
+    Route::post('/missing', [MissingTranslationController::class, 'receiveMissing']);//->middleware('auth:api');
 });
