@@ -34,5 +34,6 @@ class AccreditCreated extends Mailable implements ShouldQueue
         ->view( 'emails.accredit' )
         ->subject('Pendrive account...')
         ->with( ['accredit' => $this->accredit] );
+
     }
 }
