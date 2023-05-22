@@ -22,6 +22,9 @@ return new class extends Migration
 
             $table->unique(['source', 'language']);
 
+            $table->timestamp('sent_at')->nullable();
+            $table->timestamp('received_at')->nullable();
+
             $table->timestamps();
         });
     }

@@ -26,8 +26,7 @@
         <div class="flex-1">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg px-5 flex-1">
 
-
-                <form method="GET" action="{{ route('missing.index' ) }}">
+                <form method="GET" action="{{ route('missing.index') }}">
                     <div class="flex mt-4 mb-1 rounded-md border border-gray-300">
                         <div class="flex w-full">
                             <input
@@ -47,19 +46,23 @@
 
                 <div class="flex justify-between">
                     <div class="flex pt-5 text-xl">
-                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'all', 'orderBy' => $orderBy]) }}" class="{{ $filter == 'all' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
+                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'all', 'orderBy' => $orderBy]) }}"
+                            class="{{ $filter == 'all' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Tutti
                         </a>
-                         &nbsp; &middot; &nbsp;
-                         <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'pending', 'orderBy' => $orderBy]) }}" class="{{ $filter == 'pending' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
+                        &nbsp; &middot; &nbsp;
+                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'pending', 'orderBy' => $orderBy]) }}"
+                            class="{{ $filter == 'pending' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Nuovi
                         </a>
-                         &nbsp; &middot; &nbsp;
-                         <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'waiting', 'orderBy' => $orderBy]) }}" class="{{ $filter == 'waiting' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
+                        &nbsp; &middot; &nbsp;
+                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'waiting', 'orderBy' => $orderBy]) }}"
+                            class="{{ $filter == 'waiting' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             In traduzione
                         </a>
-                         &nbsp; &middot; &nbsp;
-                         <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'translated', 'orderBy' => $orderBy]) }}" class="{{ $filter == 'translated' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
+                        &nbsp; &middot; &nbsp;
+                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'translated', 'orderBy' => $orderBy]) }}"
+                            class="{{ $filter == 'translated' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Tradotti
                         </a>
                     </div>
@@ -68,67 +71,75 @@
                     </div>
                 </div>
 
-                    <table class="table-auto w-full my-6">
-                        <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50 dark:bg-gray-700">
-                            <tr>
-                                <th class="p-2 whitespace-nowrap">
-                                    <div class="font-semibold text-left">
-                                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'source']) }}">
-                                            Testo
-                                        </a>
-                                    </div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap w-20">
-                                    <div class="font-semibold text-left">
-                                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'language']) }}">
-                                            Lingua
-                                        </a>
-                                    </div>
-                                </th>
-                                <th class="p-2 whitespace-nowrap w-20">
-                                    <div class="font-semibold text-center">
-                                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number']) }}">
-                                            Matricola
-                                        </a>
-                                    </div>
-                                </th>
+                <table class="table-auto w-full my-6">
+                    <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th class="p-2 whitespace-nowrap">
+                                <div class="font-semibold text-left">
+                                    <a
+                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'source']) }}">
+                                        Testo
+                                    </a>
+                                </div>
+                            </th>
+                            <th class="p-2 whitespace-nowrap w-20">
+                                <div class="font-semibold text-left">
+                                    <a
+                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'language']) }}">
+                                        Lingua
+                                    </a>
+                                </div>
+                            </th>
+                            <th class="p-2 whitespace-nowrap w-20">
+                                <div class="font-semibold text-center">
+                                    <a
+                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number']) }}">
+                                        Matricola
+                                    </a>
+                                </div>
+                            </th>
 
-                                <th class="p-2 w-20 text-center items-center">
-                                    <div class="font-semibold">
-                                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'state']) }}">
-                                            Stato
-                                        </a>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
+                            <th class="p-2 w-20 text-center items-center">
+                                <div class="font-semibold">
+                                    <a
+                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'state']) }}">
+                                        Stato
+                                    </a>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
 
-                        <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-800">
-                            @foreach ($missingTranslations as $missing)
-                                <tr class=" h-10">
-                                    <td>
-                                        <div class="p-2 text-left dark:text-gray-300">
-                                            {{ $missing->source }}
-                                        </div>
-                                    </td>
-                                    <td class="p-2 whitespace-nowrap dark:text-gray-300 uppercase">
-                                        {{-- <div class="text-center">{{ $missing->language }}</div> --}}
-                                        <img src="{{ url('flags/' . $missing->language . '.svg') }}" alt=""
+                    <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-800">
+                        @foreach ($missingTranslations as $missing)
+                            <tr class=" h-10">
+                                <td>
+                                    <div class="p-2 text-left dark:text-gray-300">
+                                        {{ $missing->source }}
+                                    </div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap dark:text-gray-300 uppercase">
+                                    {{-- <div class="text-center">{{ $missing->language }}</div> --}}
+                                    <img src="{{ url('flags/' . $missing->language . '.svg') }}" alt=""
                                         class="h-5 w-10 object-cover pl-2 text-center">
 
-                                    </td>
-                                    <td>
-                                        <div class="text-center dark:text-gray-300">
-                                            {{ $missing->serial_number }}
-                                        </div>
-                                    </td>
-                                    <td class="p-2 w-20 text-center dark:text-gray-300 items-center uppercase text-xs">
-                                        <div class="text-center">{{ $missing->status }}</div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                </td>
+                                <td>
+                                    <div class="text-center dark:text-gray-300">
+                                        {{ $missing->serial_number }}
+                                    </div>
+                                </td>
+                                <td class="p-2 w-20 text-center dark:text-gray-300 items-center uppercase text-xs">
+                                    <div class="text-center"
+                                        @if ($missing->status == 'waiting') title="Inviato {{ Carbon\Carbon::parse($missing->sent_at)->format('d.m.Y ') }}" @endif
+                                        @if ($missing->status == 'translated') title="Ricevuto {{ Carbon\Carbon::parse($missing->received_at)->format('d.m.Y ') }}" @endif>
+                                        {{ $missing->status }}
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
 
             </div>

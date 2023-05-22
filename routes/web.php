@@ -37,8 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/accredit/show/{token}', [App\Http\Controllers\AccreditController::class, 'show'])->name('accredit.show');
     Route::post('/accredit/upload', [App\Http\Controllers\AccreditController::class, 'upload'])->name('accredit.upload');
 
-    // Pagina per caricamento traduzioni
+    // Mostra la pagina per caricamento delle traduzioni ricevute da intradoc
     Route::get('/missing/load', [App\Http\Controllers\MissingTranslationController::class, 'load'])->name('missing.load');
+    // Esegue l'upload del file con le traduzioni tradotte
     Route::post('/missing/upload', [App\Http\Controllers\MissingTranslationController::class, 'upload'])->name('missing.upload');
 
     Route::get('/missing/send', [App\Http\Controllers\MissingTranslationController::class, 'send'])->name('missing.send');

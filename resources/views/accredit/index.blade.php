@@ -142,7 +142,7 @@
                     </div>
 
                     <form method="post" action="{{ route('accredit.upload') }}" enctype="multipart/form-data"
-                        class="dropzone border border-gray-500 rounded-md border-dashed bg-indigo-50 text-gray-500 p-4 my-3"
+                        class="dropzone cursor-pointer border border-gray-500 rounded-md border-dashed bg-indigo-50 text-gray-500 p-4 my-3"
                         id="dropzone">
                         @csrf
                         <div class="dz-message text-center">Clicca o trascina qui il file accredito che vuoi verificare</div>
