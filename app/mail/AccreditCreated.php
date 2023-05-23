@@ -30,9 +30,9 @@ class AccreditCreated extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->from( 'no-reply@easy.meal', 'Pendrive Accredits Staff' )
-        ->view( 'emails.accredit' )
-        ->subject('Pendrive account...')
-        ->with( ['accredit' => $this->accredit] );
+        return $this->from('no-reply@easy.meal', 'Pendrive Accredits Staff')
+            ->view('emails.accredit')
+            ->subject('Pendrive account...')
+            ->with(['accredit' => $this->accredit]);
     }
 }

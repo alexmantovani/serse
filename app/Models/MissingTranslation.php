@@ -16,6 +16,25 @@ class MissingTranslation extends Model
         return $this->belongsTo(SerialNumber::class, 'serial_number', 'name');
     }
 
+    public function getFlagCodeAttribute()
+    {
+        $text = $this->attributes['language'];
+        switch ($text) {
+            case 'gr':
+                $text = 'el';
+                break;
+
+            case 'en':
+                $text = 'gb';
+                break;
+
+            default:
+                # code...
+                break;
+        }
+        return $text;
+    }
+
     /*!
     Riporta l'elenco, raggruppato per lingua, di tutte le traduzioni che devono essere ancora inviate a Intradoc
     */

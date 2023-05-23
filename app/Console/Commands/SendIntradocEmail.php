@@ -28,15 +28,12 @@ class SendIntradocEmail extends Command
     {
         $this->info('- Start job intradoc-email:send');
 
-        // $missings = MissingTranslation::pending();
+        $missings = MissingTranslation::pending();
 
-        // TODO: Questa roba va tolta e va inviata ad Intradoc la roba giusta
-        $missings = MissingTranslation::pending()['es'];
         if ( $missings->count() == 0 ) return;
 
-        // $this->info(MissingTranslation::pending()['es']);
         // TODO: Inviare la mail a Intradoc
-        foreach ($missings as $missingTranslation) {
+        foreach ($missings['es'] as $missingTranslation) {
             $missingTranslation->update([
                 'status' => 'waiting',
                 'sent_at' => now(),

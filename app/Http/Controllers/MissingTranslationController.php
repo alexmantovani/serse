@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMissingTranslationRequest;
 use App\Http\Requests\UpdateMissingTranslationRequest;
 use App\Models\MissingTranslation;
+use App\Models\SerialNumber;
 use Illuminate\Http\Request;
 use Log;
 use Carbon\Carbon;
@@ -50,7 +51,10 @@ class MissingTranslationController extends Controller
             ->orderBy($orderBy)
             ->paginate(100);
 
-        return view('missing.index', compact('missingTranslations', 'search', 'filter', 'orderBy'));
+        // return view('missing.index', compact('missingTranslations', 'search', 'filter', 'orderBy'));
+        $serialNumber = null;
+        return view('missing.show_serial', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
+
     }
 
     /**
@@ -170,5 +174,24 @@ class MissingTranslationController extends Controller
         }
 
         return response()->json(['success' => $fileName]);
+    }
+
+    public function showSerial(SerialNumber $serialNumber)
+    {
+        $search = Request()->search ?? '';
+        $orderBy = Request()->orderBy ?? 'source';
+        $missingTranslations = $serialNumber->missingTranslations()
+            ->where(function ($q) use ($search) {
+                return $q
+                    ->where('source', 'like', '%' . $search . '%')
+                    ->orWhere('serial_number', 'like', '%' . $search . '%');
+            })
+            // ->where('status', $operator, $statusString)
+            ->orderBy($orderBy)
+            ->paginate(100);
+        $missings = $serialNumber->missingTranslations();
+        $filter = '';
+
+        return view('missing.show_serial', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
     }
 }

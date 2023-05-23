@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,13 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/accredit/get/{token}', [App\Http\Controllers\AccreditController::class, 'get'])->name('accredit.get');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -41,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/missing/load', [App\Http\Controllers\MissingTranslationController::class, 'load'])->name('missing.load');
     // Esegue l'upload del file con le traduzioni tradotte
     Route::post('/missing/upload', [App\Http\Controllers\MissingTranslationController::class, 'upload'])->name('missing.upload');
+
+    Route::get('/missing/serial/{serial_number}', [App\Http\Controllers\MissingTranslationController::class, 'showSerial'])->name('missing.serial');
 
     Route::get('/missing/send', [App\Http\Controllers\MissingTranslationController::class, 'send'])->name('missing.send');
     Route::get('/missing/verify', [App\Http\Controllers\MissingTranslationController::class, 'verifyBeforeSend'])->name('missing.verify');
