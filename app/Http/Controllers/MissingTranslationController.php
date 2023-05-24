@@ -48,13 +48,16 @@ class MissingTranslationController extends Controller
                 ->orWhere('serial_number', 'like', '%' . $search . '%');
         })
             ->where('status', $operator, $statusString)
+            ->where('status', '!=', 'deleted')
             ->orderBy($orderBy)
-            ->paginate(100);
+            ->paginate(200);
 
         // return view('missing.index', compact('missingTranslations', 'search', 'filter', 'orderBy'));
         $serialNumber = null;
-        return view('missing.show_serial', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
-
+        if (isset(Request()->matricola)) {
+            $serialNumber = SerialNumber::firstWhere('name', Request()->input('matricola'));
+        }
+        return view('missing.index', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
     }
 
     /**
@@ -100,9 +103,15 @@ class MissingTranslationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MissingTranslation $missingTranslation)
+    public function destroy($id)
     {
-        //
+        $missingTranslation = MissingTranslation::find($id);
+        $missingTranslation->update(['status' => 'deleted']);
+
+        // MissingTranslation::destroy($id);
+
+        // // $appointments = Appointment::orderBy('starting_at', 'desc');
+        return redirect()->route('missing.index');
     }
 
     public function receiveMissing(Request $request)
@@ -192,6 +201,6 @@ class MissingTranslationController extends Controller
         $missings = $serialNumber->missingTranslations();
         $filter = '';
 
-        return view('missing.show_serial', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
+        return view('missing.index', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
     }
 }

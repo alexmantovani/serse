@@ -20,12 +20,16 @@ class MissingTranslation extends Model
     {
         $text = $this->attributes['language'];
         switch ($text) {
-            case 'gr':
-                $text = 'el';
+            case 'el':
+                $text = 'gr';
                 break;
 
             case 'en':
                 $text = 'gb';
+                break;
+
+            case 'uk':
+                $text = 'ua';
                 break;
 
             default:

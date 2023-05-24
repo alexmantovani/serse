@@ -51,6 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/missing/verify', [App\Http\Controllers\MissingTranslationController::class, 'verifyBeforeSend'])->name('missing.verify');
     Route::get('/missing/index', [App\Http\Controllers\MissingTranslationController::class, 'index'])->name('missing.index');
     Route::get('/missing/show/{id}', [App\Http\Controllers\MissingTranslationController::class, 'show'])->name('missing.show');
+    Route::delete('/missing/destroy/{id}', [App\Http\Controllers\MissingTranslationController::class, 'destroy'])->name('missing.destroy');
 
     // Route::get('/translation/index', [App\Http\Controllers\TranslationController::class, 'index'])->name('translation.index');
     Route::resource('/translation', App\Http\Controllers\TranslationController::class);

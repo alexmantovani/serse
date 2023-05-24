@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('language');
             $table->string('source');
 
-            $table->enum('status', ['pending', 'waiting', 'translated'])->default('pending');
+            $table->enum('status', ['pending', 'waiting', 'translated', 'deleted'])->default('pending');
 
             $table->unique(['source', 'language']);
 

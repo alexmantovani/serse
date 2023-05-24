@@ -1,10 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Traduzioni mancanti') }}
-            </h2>
-            <div class="flex">
+            @if (isset($serialNumber))
+                <div class="flex items-baseline text-gray-500">
+                    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        {{ $serialNumber->name }}
+                    </h2> &nbsp;
+                    {{ __('Traduzioni mancanti') }}
+                </div>
+            @else
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ __('Traduzioni mancanti') }}
+                </h2>
+            @endif
+            {{-- <div class="flex">
                 <a href="{{ route('missing.verify') }}">
                     <x-secondary-button class="ml-3" title="Invia manulamente le traduzioni a intradoc">
                         <i class="fas fa-check"></i> &nbsp;
@@ -18,7 +27,7 @@
                         {{ __('Importa') }}
                     </x-primary-button>
                 </form>
-            </div>
+            </div> --}}
         </div>
     </x-slot>
 
@@ -40,7 +49,6 @@
                                 <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
                             </x-primary-button>
                         </div>
-
                     </div>
                 </form>
 
@@ -90,15 +98,16 @@
                                     </a>
                                 </div>
                             </th>
-                            <th class="p-2 whitespace-nowrap w-20">
-                                <div class="font-semibold text-center">
-                                    <a
-                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number']) }}">
-                                        Matricola
-                                    </a>
-                                </div>
-                            </th>
-
+                            @if (!$serialNumber)
+                                <th class="p-2 whitespace-nowrap w-20">
+                                    <div class="font-semibold text-center">
+                                        <a
+                                            href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number']) }}">
+                                            Matricola
+                                        </a>
+                                    </div>
+                                </th>
+                            @endif
                             <th class="p-2 w-20 text-center items-center">
                                 <div class="font-semibold">
                                     <a
@@ -114,20 +123,54 @@
                         @foreach ($missingTranslations as $missing)
                             <tr class=" h-10">
                                 <td>
-                                    <div class="p-2 text-left dark:text-gray-300">
-                                        {{ $missing->source }}
+                                    <div class="group flex justify-between">
+                                        <p>{{ $missing->source }}</p>
+                                        <div class="invisible group-hover:visible flex">
+
+                                                <a href="" class="px-1">
+                                                    <i class="fa-solid fa-pen-to-square text-lg"></i>
+                                                </a>
+
+                                            <form method="POST" action="{{ route('missing.destroy', $missing) }}"
+                                                class="invisible group-hover:visible px-1"
+                                                onclick="return confirm('Vuoi davvero eliminare questo messaggio?');">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+
+                                                <button type="submit">
+                                                    <i class="fa-solid fa-trash-can text-lg text-red-600"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
+
+                                    {{-- <div class="flex justify-between">
+                                        <a href="{{ route('missing.show', $missing) }}">
+                                            <div
+                                                class="p-2 text-left text-gray-700 dark:text-gray-300 hover:text-gray-900 hover:font-bold">
+                                                {{ $missing->source }}
+                                            </div>
+                                        </a>
+
+                                        <div>
+                                            aaa
+                                        </div>
+                                    </div> --}}
                                 </td>
                                 <td class="p-2 whitespace-nowrap dark:text-gray-300 uppercase">
                                     <img src="{{ url('flags/' . $missing->flagCode . '.svg') }}" alt=""
                                         class="h-5 w-10 object-cover pl-2 text-center">
 
                                 </td>
-                                <td>
-                                    <div class="text-center dark:text-gray-300">
-                                        {{ $missing->serial_number }}
-                                    </div>
-                                </td>
+                                @if (!isset($serialNumber))
+                                    <td>
+                                        <a href="{{ route('missing.index', ['matricola' => $missing->serial_number]) }}">
+                                            <div class="text-center dark:text-gray-300">
+                                                {{ $missing->serial_number }}
+                                            </div>
+                                        </a>
+                                    </td>
+                                @endif
                                 <td class="p-2 w-20 text-center dark:text-gray-300 items-center uppercase text-xs">
                                     <div class="text-center"
                                         @if ($missing->status == 'waiting') title="Inviato {{ Carbon\Carbon::parse($missing->sent_at)->format('d.m.Y ') }}" @endif
