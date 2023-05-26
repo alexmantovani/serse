@@ -108,15 +108,13 @@ class MissingTranslationController extends Controller
         $missingTranslation = MissingTranslation::find($id);
         $missingTranslation->update(['status' => 'deleted']);
 
-        // MissingTranslation::destroy($id);
-
-        // // $appointments = Appointment::orderBy('starting_at', 'desc');
-        return redirect()->route('missing.index');
+        // return redirect()->back();
+        return back();
     }
 
     public function receiveMissing(Request $request)
     {
-        MissingTranslation::upsert($request->all(), ['source', 'language'], ['serial_number']);
+        MissingTranslation::upsert($request->all(), ['source', 'language', 'context'], ['serial_number', 'comment', 'missing']);
 
         return response([
             'return code' => 0,
@@ -185,8 +183,33 @@ class MissingTranslationController extends Controller
         return response()->json(['success' => $fileName]);
     }
 
-    public function showSerial(SerialNumber $serialNumber)
+    public function indexSerial($matricola)
     {
+        $serialNumber = SerialNumber::firstWhere('name', $matricola) ?? abort(404);
+
+        $filter = Request()->filter ?? 'all';
+        switch ($filter) {
+            case 'pending':
+                $operator = '=';
+                $statusString = 'pending';
+                break;
+
+            case 'waiting':
+                $operator = '=';
+                $statusString = 'waiting';
+                break;
+
+            case 'translated':
+                $operator = '=';
+                $statusString = 'translated';
+                break;
+
+            default:
+                $operator = '!=';
+                $statusString = '';
+                break;
+        }
+
         $search = Request()->search ?? '';
         $orderBy = Request()->orderBy ?? 'source';
         $missingTranslations = $serialNumber->missingTranslations()
@@ -195,12 +218,11 @@ class MissingTranslationController extends Controller
                     ->where('source', 'like', '%' . $search . '%')
                     ->orWhere('serial_number', 'like', '%' . $search . '%');
             })
-            // ->where('status', $operator, $statusString)
+            ->where('status', $operator, $statusString)
             ->orderBy($orderBy)
             ->paginate(100);
-        $missings = $serialNumber->missingTranslations();
         $filter = '';
 
-        return view('missing.index', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
+        return view('missing.index_serial', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
     }
 }

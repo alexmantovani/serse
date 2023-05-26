@@ -13,7 +13,7 @@
                     {{ __('Traduzioni mancanti') }}
                 </h2>
             @endif
-            <div class="flex">
+            {{-- <div class="flex">
                 <a href="{{ route('missing.verify') }}">
                     <x-secondary-button class="ml-3" title="Invia manulamente le traduzioni a intradoc">
                         <i class="fas fa-check"></i> &nbsp;
@@ -27,7 +27,7 @@
                         {{ __('Importa') }}
                     </x-primary-button>
                 </form>
-            </div>
+            </div> --}}
         </div>
     </x-slot>
 
@@ -35,7 +35,7 @@
         <div class="flex-1">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg px-5 flex-1">
 
-                <form method="GET" action="{{ route('missing.index') }}">
+                <form method="GET" action="{{ route('missing.serial', $serialNumber->name) }}">
                     <div class="flex mt-4 mb-1 rounded-md border border-gray-300">
                         <div class="flex w-full">
                             <input
@@ -54,22 +54,22 @@
 
                 <div class="flex justify-between">
                     <div class="flex pt-5 text-xl">
-                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'all', 'orderBy' => $orderBy]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'all', 'orderBy' => $orderBy, 'matricola' => 'M2140034']) }}"
                             class="{{ $filter == 'all' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Tutti
                         </a>
                         &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'pending', 'orderBy' => $orderBy]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'pending', 'orderBy' => $orderBy, 'matricola' => 'M2140034']) }}"
                             class="{{ $filter == 'pending' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Nuovi
                         </a>
                         &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'waiting', 'orderBy' => $orderBy]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'waiting', 'orderBy' => $orderBy, 'matricola' => 'M2140034']) }}"
                             class="{{ $filter == 'waiting' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             In traduzione
                         </a>
                         &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.index', ['search' => $search, 'filter' => 'translated', 'orderBy' => $orderBy]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'translated', 'orderBy' => $orderBy, 'matricola' => $serialNumber->name]) }}"
                             class="{{ $filter == 'translated' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Tradotti
                         </a>
@@ -85,7 +85,7 @@
                             <th class="p-2 whitespace-nowrap">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'source']) }}">
+                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'source', 'matricola' => 'M2140034']) }}">
                                         Testo
                                     </a>
                                 </div>
@@ -93,7 +93,7 @@
                             <th class="p-2 whitespace-nowrap w-20">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'language']) }}">
+                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'language', 'matricola' => 'M2140034']) }}">
                                         Lingua
                                     </a>
                                 </div>
@@ -102,7 +102,7 @@
                                 <th class="p-2 whitespace-nowrap w-20">
                                     <div class="font-semibold text-center">
                                         <a
-                                            href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number']) }}">
+                                            href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number', 'matricola' => 'M2140034']) }}">
                                             Matricola
                                         </a>
                                     </div>
@@ -111,7 +111,7 @@
                             <th class="p-2 w-20 text-center items-center">
                                 <div class="font-semibold">
                                     <a
-                                        href="{{ route('missing.index', ['search' => $search, 'filter' => $filter, 'orderBy' => 'state']) }}">
+                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'state', 'matricola' => 'M2140034']) }}">
                                         Stato
                                     </a>
                                 </div>
@@ -164,7 +164,7 @@
                                 </td>
                                 @if (!isset($serialNumber))
                                     <td>
-                                        <a href="{{ route('missing.serial', $missing->serial_number) }}">
+                                        <a href="{{ route('missing.index', ['matricola' => $missing->serial_number]) }}">
                                             <div class="text-center dark:text-gray-300">
                                                 {{ $missing->serial_number }}
                                             </div>

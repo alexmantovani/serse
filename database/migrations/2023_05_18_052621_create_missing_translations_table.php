@@ -17,10 +17,12 @@ return new class extends Migration
             $table->string('serial_number');
             $table->string('language');
             $table->string('source');
+            $table->string('context')->default('');
+            $table->string('comment')->nullable();
 
             $table->enum('status', ['pending', 'waiting', 'translated', 'deleted'])->default('pending');
 
-            $table->unique(['source', 'language']);
+            $table->unique(['source', 'language', 'context']);
 
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('received_at')->nullable();
