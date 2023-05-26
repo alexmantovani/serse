@@ -114,7 +114,7 @@ class MissingTranslationController extends Controller
 
     public function receiveMissing(Request $request)
     {
-        MissingTranslation::upsert($request->all(), ['source', 'language', 'context'], ['serial_number', 'comment', 'missing']);
+        MissingTranslation::upsert($request->all(), ['source', 'language', 'context'], ['serial_number', 'comment', 'status']);
 
         return response([
             'return code' => 0,
@@ -221,7 +221,6 @@ class MissingTranslationController extends Controller
             ->where('status', $operator, $statusString)
             ->orderBy($orderBy)
             ->paginate(100);
-        $filter = '';
 
         return view('missing.index_serial', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
     }
