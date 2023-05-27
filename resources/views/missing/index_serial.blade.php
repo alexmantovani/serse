@@ -130,13 +130,15 @@
                     <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-800">
                         @foreach ($missingTranslations as $missing)
                             <tr class=" h-10">
-                                <td>
-                                    <p>{{ $missing->context }}</p>
+                                <td class="">
+                                    <div class="p-2">
+                                       {{ $missing->context }}
+                                    </div>
                                 </td>
                                 <td>
-                                    <div class="group flex justify-between">
+                                    <div class="group flex justify-between items-center">
                                         <div
-                                            class="
+                                            class="p-2
                                         @if ($missing->status == 'deleted') line-through text-gray-400 @endif
                                     ">
                                             {{ $missing->source }}
