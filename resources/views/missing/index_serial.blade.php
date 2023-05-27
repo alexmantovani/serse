@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between">
-            @if (isset($serialNumber))
+            @if (isset($serial))
                 <div class="flex items-baseline text-gray-500">
                     <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                        {{ $serialNumber->name }}
+                        {{ $serial }}
                     </h2> &nbsp;
                     {{ __('Traduzioni mancanti') }}
                 </div>
@@ -35,7 +35,7 @@
         <div class="flex-1">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg px-5 flex-1">
 
-                <form method="GET" action="{{ route('missing.serial', $serialNumber->name) }}">
+                <form method="GET" action="{{ route('missing.serial', $serial) }}">
                     <div class="flex mt-4 mb-1 rounded-md border border-gray-300">
                         <div class="flex w-full">
                             <input
@@ -54,22 +54,22 @@
 
                 <div class="flex justify-between">
                     <div class="flex pt-5 text-xl">
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'all', 'orderBy' => $orderBy, 'matricola' => $serialNumber->name]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'all', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
                             class="{{ $filter == 'all' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Tutti
                         </a>
                         &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'pending', 'orderBy' => $orderBy, 'matricola' => $serialNumber->name]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'pending', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
                             class="{{ $filter == 'pending' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Nuovi
                         </a>
                         &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'waiting', 'orderBy' => $orderBy, 'matricola' => $serialNumber->name]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'waiting', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
                             class="{{ $filter == 'waiting' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             In traduzione
                         </a>
                         &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'translated', 'orderBy' => $orderBy, 'matricola' => $serialNumber->name]) }}"
+                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'translated', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
                             class="{{ $filter == 'translated' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
                             Tradotti
                         </a>
@@ -85,14 +85,15 @@
                             <th class="p-2 whitespace-nowrap">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'context', 'matricola' => $serialNumber->name]) }}">
+                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'context', 'serial' => $serial]) }}">
                                         Contesto
                                     </a>
                                 </div>
-                            </th> <th class="p-2 whitespace-nowrap">
+                            </th>
+                            <th class="p-2 whitespace-nowrap">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'source', 'matricola' => $serialNumber->name]) }}">
+                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'source', 'serial' => $serial]) }}">
                                         Testo
                                     </a>
                                 </div>
@@ -100,16 +101,16 @@
                             <th class="p-2 whitespace-nowrap w-20">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'language', 'matricola' => $serialNumber->name]) }}">
+                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'language', 'serial' => $serial]) }}">
                                         Lingua
                                     </a>
                                 </div>
                             </th>
-                            @if (!$serialNumber)
+                            @if (!$serial)
                                 <th class="p-2 whitespace-nowrap w-20">
                                     <div class="font-semibold text-center">
                                         <a
-                                            href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number', 'matricola' => $serialNumber->name]) }}">
+                                            href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number', 'serial' => $serial]) }}">
                                             Matricola
                                         </a>
                                     </div>
@@ -118,7 +119,7 @@
                             <th class="p-2 w-20 text-center items-center">
                                 <div class="font-semibold">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'state', 'matricola' => $serialNumber->name]) }}">
+                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'state', 'serial' => $serial]) }}">
                                         Stato
                                     </a>
                                 </div>
@@ -134,12 +135,17 @@
                                 </td>
                                 <td>
                                     <div class="group flex justify-between">
-                                        <p>{{ $missing->source }}</p>
+                                        <div
+                                            class="
+                                        @if ($missing->status == 'deleted') line-through text-gray-400 @endif
+                                    ">
+                                            {{ $missing->source }}
+                                        </div>
                                         <div class="invisible group-hover:visible flex">
 
-                                                <a href="" class="px-1">
-                                                    <i class="fa-solid fa-pen-to-square text-lg"></i>
-                                                </a>
+                                            <a href="" class="px-1">
+                                                <i class="fa-solid fa-pen-to-square text-lg"></i>
+                                            </a>
 
                                             <form method="POST" action="{{ route('missing.destroy', $missing) }}"
                                                 class="invisible group-hover:visible px-1"
@@ -172,7 +178,7 @@
                                         class="h-5 w-10 object-cover pl-2 text-center">
 
                                 </td>
-                                @if (!isset($serialNumber))
+                                {{-- @if (!isset($serialNumber))
                                     <td>
                                         <a href="{{ route('missing.index', ['matricola' => $missing->serial_number]) }}">
                                             <div class="text-center dark:text-gray-300">
@@ -180,7 +186,7 @@
                                             </div>
                                         </a>
                                     </td>
-                                @endif
+                                @endif --}}
                                 <td class="p-2 w-20 text-center dark:text-gray-300 items-center uppercase text-xs">
                                     <div class="text-center"
                                         @if ($missing->status == 'waiting') title="Inviato {{ Carbon\Carbon::parse($missing->sent_at)->format('d.m.Y ') }}" @endif

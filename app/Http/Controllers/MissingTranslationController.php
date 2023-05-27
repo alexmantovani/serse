@@ -116,6 +116,10 @@ class MissingTranslationController extends Controller
     {
         MissingTranslation::upsert($request->all(), ['source', 'language', 'context'], ['serial_number', 'comment', 'status']);
 
+        // TODO: In teoria andrebbero aggiunti i seriali delle nuove traduzioni alla classe SeriaNumber
+        // $serials = $request->pluck('serial_number');
+        // return $serials;
+
         return response([
             'return code' => 0,
             'return text' => 'Done',
@@ -183,9 +187,9 @@ class MissingTranslationController extends Controller
         return response()->json(['success' => $fileName]);
     }
 
-    public function indexSerial($matricola)
+    public function indexSerial($serial)
     {
-        $serialNumber = SerialNumber::firstWhere('name', $matricola) ?? abort(404);
+        // $serialNumber = SerialNumber::firstWhere('name', $matricola) ?? abort(404);
 
         $filter = Request()->filter ?? 'all';
         switch ($filter) {
@@ -212,7 +216,7 @@ class MissingTranslationController extends Controller
 
         $search = Request()->search ?? '';
         $orderBy = Request()->orderBy ?? 'source';
-        $missingTranslations = $serialNumber->missingTranslations()
+        $missingTranslations = MissingTranslation::where('serial_number', $serial)
             ->where(function ($q) use ($search) {
                 return $q
                     ->where('source', 'like', '%' . $search . '%')
@@ -222,6 +226,6 @@ class MissingTranslationController extends Controller
             ->orderBy($orderBy)
             ->paginate(100);
 
-        return view('missing.index_serial', compact('serialNumber', 'missingTranslations', 'search', 'filter', 'orderBy'));
+        return view('missing.index_serial', compact('serial', 'missingTranslations', 'search', 'filter', 'orderBy'));
     }
 }

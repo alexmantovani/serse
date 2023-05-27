@@ -45,7 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Esegue l'upload del file con le traduzioni tradotte
     Route::post('/missing/upload', [App\Http\Controllers\MissingTranslationController::class, 'upload'])->name('missing.upload');
 
-    Route::get('/missing/serial/{matricola}', [App\Http\Controllers\MissingTranslationController::class, 'indexSerial'])->name('missing.serial');
+    Route::get('/missing/serial/{serial}', [App\Http\Controllers\MissingTranslationController::class, 'indexSerial'])->name('missing.serial');
 
     Route::get('/missing/send', [App\Http\Controllers\MissingTranslationController::class, 'send'])->name('missing.send');
     Route::get('/missing/verify', [App\Http\Controllers\MissingTranslationController::class, 'verifyBeforeSend'])->name('missing.verify');
