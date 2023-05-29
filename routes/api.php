@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\MissingTranslationController;
+use App\Http\Controllers\TranslationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

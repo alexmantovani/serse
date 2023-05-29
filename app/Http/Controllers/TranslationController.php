@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTranslationRequest;
 use App\Http\Requests\UpdateTranslationRequest;
 use App\Models\Translation;
-use Request;
+use Illuminate\Http\Request;
 
 class TranslationController extends Controller
 {
