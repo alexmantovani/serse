@@ -39,10 +39,10 @@
 
                         <x-slot name="content">
                             <x-dropdown-link :href="route('translation.index')">
-                                {{ __('DB Traduzioni') }}
+                                {{ __('Archivio') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link :href="route('missing.index')">
+                            <x-dropdown-link :href="route('translation.missing')">
                                 {{ __('Mancanti') }}
                             </x-dropdown-link>
                         </x-slot>

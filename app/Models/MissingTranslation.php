@@ -9,7 +9,18 @@ class MissingTranslation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['source', 'serial_number', 'language', 'status', 'context', 'comment', 'sent_at', 'received_at'];
+    protected $fillable = [
+        'source',
+        'serial_number',
+        'language',
+        'status',
+        'context',
+        'comment',
+        'sent_at',
+        'received_at',
+        'translation',
+        'verified',
+    ];
 
     public function serialNumber()
     {

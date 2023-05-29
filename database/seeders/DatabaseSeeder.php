@@ -28,9 +28,13 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $serialNumber = \App\Models\SerialNumber::factory()->create();
-            \App\Models\MissingTranslation::factory(rand(50, 200))->create([
+            \App\Models\Translation::factory(rand(50, 200))->create([
                 'serial_number' => $serialNumber->name,
             ]);
         }
+
+        $this->call([
+            LanguageSeeder::class,
+        ]);
     }
 }

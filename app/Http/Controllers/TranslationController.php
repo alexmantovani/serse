@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTranslationRequest;
 use App\Http\Requests\UpdateTranslationRequest;
 use App\Models\Translation;
+use Request;
 
 class TranslationController extends Controller
 {
@@ -13,7 +14,19 @@ class TranslationController extends Controller
      */
     public function index()
     {
-        return view('translation.index');
+        $search = Request()->search ?? '';
+        $orderBy = Request()->orderBy ?? 'source';
+        $translations = Translation::where(function ($q) use ($search) {
+            return $q
+                ->where('source', 'like', '%' . $search . '%')
+                ->orWhere('destination', 'like', '%' . $search . '%')
+                ->orWhere('serial_number', 'like', '%' . $search . '%');
+        })
+            ->whereIn('status', ['translated'])
+            ->orderBy($orderBy)
+            ->paginate(200);
+
+        return view('translation.index', compact('translations', 'search', 'orderBy'));
     }
 
     /**
@@ -45,7 +58,7 @@ class TranslationController extends Controller
      */
     public function edit(Translation $translation)
     {
-        //
+        return view('translation.edit', ['translation' => $translation]);
     }
 
     /**
@@ -53,7 +66,12 @@ class TranslationController extends Controller
      */
     public function update(UpdateTranslationRequest $request, Translation $translation)
     {
-        //
+        $translation->update([
+            'translation' => $request['translation'],
+            'status' => 'translated',
+        ]);
+
+        return to_route('translation.missing');
     }
 
     /**
@@ -62,5 +80,31 @@ class TranslationController extends Controller
     public function destroy(Translation $translation)
     {
         //
+    }
+
+    public function missing($serial = '')
+    {
+        $search = Request()->search ?? '';
+        $orderBy = Request()->orderBy ?? 'source';
+        $translations = Translation::where(function ($q) use ($search) {
+            return $q
+                ->where('source', 'like', '%' . $search . '%')
+                ->orWhere('destination', 'like', '%' . $search . '%')
+                ->orWhere('serial_number', 'like', '%' . $search . '%');
+        })
+            ->whereIn('status', ['pending', 'waiting'])
+            ->orderBy($orderBy)
+            ->paginate(200);
+
+        return view('translation.missing', compact('translations', 'search', 'orderBy', 'serial'));
+    }
+
+    public function receiveMissing(Request $request)
+    {
+        Translation::upsert($request->all(), ['source', 'language', 'context'], ['serial_number', 'comment', 'status']);
+        return response([
+            'return code' => 0,
+            'return text' => 'Done',
+        ]);
     }
 }

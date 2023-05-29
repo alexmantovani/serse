@@ -40,20 +40,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/accredit/show/{token}', [App\Http\Controllers\AccreditController::class, 'show'])->name('accredit.show');
     Route::post('/accredit/upload', [App\Http\Controllers\AccreditController::class, 'upload'])->name('accredit.upload');
 
-    // Mostra la pagina per caricamento delle traduzioni ricevute da intradoc
-    Route::get('/missing/load', [App\Http\Controllers\MissingTranslationController::class, 'load'])->name('missing.load');
-    // Esegue l'upload del file con le traduzioni tradotte
-    Route::post('/missing/upload', [App\Http\Controllers\MissingTranslationController::class, 'upload'])->name('missing.upload');
+    // // Mostra la pagina per caricamento delle traduzioni ricevute da intradoc
+    // Route::get('/missing/load', [App\Http\Controllers\MissingTranslationController::class, 'load'])->name('missing.load');
+    // // Esegue l'upload del file con le traduzioni tradotte
+    // Route::post('/missing/upload', [App\Http\Controllers\MissingTranslationController::class, 'upload'])->name('missing.upload');
 
-    Route::get('/missing/serial/{serial}', [App\Http\Controllers\MissingTranslationController::class, 'indexSerial'])->name('missing.serial');
+    // Route::get('/missing/serial/{serial}', [App\Http\Controllers\MissingTranslationController::class, 'indexSerial'])->name('missing.serial');
 
-    Route::get('/missing/send', [App\Http\Controllers\MissingTranslationController::class, 'send'])->name('missing.send');
-    Route::get('/missing/verify', [App\Http\Controllers\MissingTranslationController::class, 'verifyBeforeSend'])->name('missing.verify');
-    Route::get('/missing/index', [App\Http\Controllers\MissingTranslationController::class, 'index'])->name('missing.index');
-    Route::get('/missing/show/{id}', [App\Http\Controllers\MissingTranslationController::class, 'show'])->name('missing.show');
-    Route::delete('/missing/destroy/{id}', [App\Http\Controllers\MissingTranslationController::class, 'destroy'])->name('missing.destroy');
+    // Route::resource('/missing', App\Http\Controllers\MissingTranslationController::class);
+
+    // Route::get('/missing/send', [App\Http\Controllers\MissingTranslationController::class, 'send'])->name('missing.send');
+    // Route::get('/missing/verify', [App\Http\Controllers\MissingTranslationController::class, 'verifyBeforeSend'])->name('missing.verify');
+    // Route::get('/missing/index', [App\Http\Controllers\MissingTranslationController::class, 'index'])->name('missing.index');
+    // Route::get('/missing/show/{id}', [App\Http\Controllers\MissingTranslationController::class, 'show'])->name('missing.show');
+    // Route::delete('/missing/destroy/{id}', [App\Http\Controllers\MissingTranslationController::class, 'destroy'])->name('missing.destroy');
+    // Route::get('/missing/edit/{id}', [App\Http\Controllers\MissingTranslationController::class, 'edit'])->name('missing.edit');
+    // Route::put('/missing/update/{id}', [App\Http\Controllers\MissingTranslationController::class, 'edit'])->name('missing.edit');
 
     // Route::get('/translation/index', [App\Http\Controllers\TranslationController::class, 'index'])->name('translation.index');
+    Route::get('/translation/missing/{serial?}', [App\Http\Controllers\TranslationController::class, 'missing'])->name('translation.missing');
     Route::resource('/translation', App\Http\Controllers\TranslationController::class);
 
 });

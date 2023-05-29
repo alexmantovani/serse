@@ -87,17 +87,23 @@ class MissingTranslationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(MissingTranslation $missingTranslation)
+    public function edit($missingTranslation)
     {
-        //
+        return view('missing.edit', ['missing_translation' => MissingTranslation::find($missingTranslation)]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMissingTranslationRequest $request, MissingTranslation $missingTranslation)
+    public function update(UpdateMissingTranslationRequest $request, $missingTranslationId)
     {
-        //
+        $missingTranslation = MissingTranslation::find($missingTranslationId);
+        $missingTranslation->update([
+            'translation' => $request['translation'],
+            'status' => 'translated',
+        ]);
+
+        return to_route('missing.index');
     }
 
     /**

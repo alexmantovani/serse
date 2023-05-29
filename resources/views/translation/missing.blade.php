@@ -35,7 +35,7 @@
         <div class="flex-1">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg px-5 flex-1">
 
-                <form method="GET" action="{{ route('missing.serial', $serial) }}">
+                <form method="GET" action="{{ route('translation.missing', $serial) }}">
                     <div class="flex mt-4 mb-1 rounded-md border border-gray-300">
                         <div class="flex w-full">
                             <input
@@ -52,30 +52,10 @@
                     </div>
                 </form>
 
-                <div class="flex justify-between">
-                    <div class="flex pt-5 text-xl">
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'all', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
-                            class="{{ $filter == 'all' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
-                            Tutti
-                        </a>
-                        &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'pending', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
-                            class="{{ $filter == 'pending' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
-                            Nuovi
-                        </a>
-                        &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'waiting', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
-                            class="{{ $filter == 'waiting' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
-                            In traduzione
-                        </a>
-                        &nbsp; &middot; &nbsp;
-                        <a href="{{ route('missing.serial', ['search' => $search, 'filter' => 'translated', 'orderBy' => $orderBy, 'serial' => $serial]) }}"
-                            class="{{ $filter == 'translated' ? 'border-b-2 border-indigo-600 text-indigo-600' : '' }}">
-                            Tradotti
-                        </a>
-                    </div>
+                <div class="flex justify-end">
+
                     <div class=" text-right text-sm text-gray-400">
-                        Trovati {{ $missingTranslations->total() }} risultati
+                        Trovati {{ $translations->total() }} risultati
                     </div>
                 </div>
 
@@ -85,7 +65,7 @@
                             <th class="p-2 whitespace-nowrap">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'context', 'serial' => $serial]) }}">
+                                        href="{{ route('translation.missing', ['search' => $search,  'orderBy' => 'context', 'serial' => $serial]) }}">
                                         Contesto
                                     </a>
                                 </div>
@@ -93,7 +73,7 @@
                             <th class="p-2 whitespace-nowrap">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'source', 'serial' => $serial]) }}">
+                                        href="{{ route('translation.missing', ['search' => $search,  'orderBy' => 'source', 'serial' => $serial]) }}">
                                         Testo
                                     </a>
                                 </div>
@@ -101,7 +81,7 @@
                             <th class="p-2 whitespace-nowrap w-20">
                                 <div class="font-semibold text-left">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'language', 'serial' => $serial]) }}">
+                                        href="{{ route('translation.missing', ['search' => $search,  'orderBy' => 'language', 'serial' => $serial]) }}">
                                         Lingua
                                     </a>
                                 </div>
@@ -110,7 +90,7 @@
                                 <th class="p-2 whitespace-nowrap w-20">
                                     <div class="font-semibold text-center">
                                         <a
-                                            href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'serial_number', 'serial' => $serial]) }}">
+                                            href="{{ route('translation.missing', ['search' => $search,  'orderBy' => 'serial_number', 'serial' => $serial]) }}">
                                             Matricola
                                         </a>
                                     </div>
@@ -119,7 +99,7 @@
                             <th class="p-2 w-20 text-center items-center">
                                 <div class="font-semibold">
                                     <a
-                                        href="{{ route('missing.serial', ['search' => $search, 'filter' => $filter, 'orderBy' => 'state', 'serial' => $serial]) }}">
+                                        href="{{ route('translation.missing', ['search' => $search,  'orderBy' => 'state', 'serial' => $serial]) }}">
                                         Stato
                                     </a>
                                 </div>
@@ -128,11 +108,11 @@
                     </thead>
 
                     <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-800">
-                        @foreach ($missingTranslations as $missing)
+                        @foreach ($translations as $translation)
                             <tr class=" h-10">
                                 <td class="">
                                     <div class="p-2">
-                                        {{ $missing->context }}
+                                        {{ $translation->context }}
                                     </div>
                                 </td>
                                 <td>
@@ -140,21 +120,21 @@
                                         <div class="p-2">
                                             <div
                                                 class="
-                                            @if ($missing->status == 'deleted') line-through text-gray-400 @endif
+                                            @if ($translation->status == 'deleted') line-through text-gray-400 @endif
                                             ">
-                                                {{ $missing->source }}
+                                                {{ $translation->source }}
                                             </div>
                                             <div class="text-gray-400 text-sm">
-                                                {{ $missing->translation }}
+                                                {{ $translation->translation }}
                                             </div>
                                         </div>
                                         <div class="invisible group-hover:visible flex">
 
-                                            <a href="{{ route('missing.edit', $missing) }}" class="px-1">
+                                            <a href="{{ route('translation.edit', $translation) }}" class="px-1">
                                                 <i class="fa-solid fa-pen-to-square text-lg"></i>
                                             </a>
 
-                                            <form method="POST" action="{{ route('missing.destroy', $missing) }}"
+                                            <form method="POST" action="{{ route('translation.destroy', $translation) }}"
                                                 class="invisible group-hover:visible px-1"
                                                 onclick="return confirm('Vuoi davvero eliminare questo messaggio?');">
                                                 {{ csrf_field() }}
@@ -168,10 +148,10 @@
                                     </div>
 
                                     {{-- <div class="flex justify-between">
-                                        <a href="{{ route('missing.show', $missing) }}">
+                                        <a href="{{ route('missing.show', $translation) }}">
                                             <div
                                                 class="p-2 text-left text-gray-700 dark:text-gray-300 hover:text-gray-900 hover:font-bold">
-                                                {{ $missing->source }}
+                                                {{ $translation->source }}
                                             </div>
                                         </a>
 
@@ -180,25 +160,25 @@
                                         </div>
                                     </div> --}}
                                 </td>
-                                <td class="p-2 whitespace-nowrap dark:text-gray-300 uppercase">
-                                    <img src="{{ url('flags/' . $missing->flagCode . '.svg') }}" alt=""
+                                <td class="p-2 whitespace-nowrap dark:text-gray-300 ">
+                                    <img src="{{ url('flags/' . $translation->flagCode . '.svg') }}" alt=""
                                         class="h-5 w-10 object-cover pl-2 text-center">
 
                                 </td>
                                 {{-- @if (!isset($serialNumber))
                                     <td>
-                                        <a href="{{ route('missing.index', ['matricola' => $missing->serial_number]) }}">
+                                        <a href="{{ route('missing.index', ['matricola' => $translation->serial_number]) }}">
                                             <div class="text-center dark:text-gray-300">
-                                                {{ $missing->serial_number }}
+                                                {{ $translation->serial_number }}
                                             </div>
                                         </a>
                                     </td>
                                 @endif --}}
                                 <td class="p-2 w-20 text-center dark:text-gray-300 items-center uppercase text-xs">
                                     <div class="text-center"
-                                        @if ($missing->status == 'waiting') title="Inviato {{ Carbon\Carbon::parse($missing->sent_at)->format('d.m.Y ') }}" @endif
-                                        @if ($missing->status == 'translated') title="Ricevuto {{ Carbon\Carbon::parse($missing->received_at)->format('d.m.Y ') }}" @endif>
-                                        {{ $missing->status }}
+                                        @if ($translation->status == 'waiting') title="Inviato {{ Carbon\Carbon::parse($translation->sent_at)->format('d.m.Y ') }}" @endif
+                                        @if ($translation->status == 'translated') title="Ricevuto {{ Carbon\Carbon::parse($translation->received_at)->format('d.m.Y ') }}" @endif>
+                                        {{ $translation->status }}
                                     </div>
                                 </td>
                             </tr>
@@ -210,7 +190,7 @@
             </div>
 
             <div class="pt-6 mb-0 pb-0 mx-6">
-                <?php echo $missingTranslations->appends(['search' => $search, 'filter' => $filter, 'orderBy' => $orderBy])->links(); ?>
+                <?php echo $translations->appends(['search' => $search,  'orderBy' => $orderBy])->links(); ?>
             </div>
         </div>
 

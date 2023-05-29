@@ -13,6 +13,22 @@ return new class extends Migration
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->id();
+
+            $table->string('serial_number')->nullable();
+            $table->string('language');
+            $table->string('source');
+            $table->string('context')->default('');
+            $table->string('comment')->nullable();
+            $table->string('translation')->nullable();
+
+            $table->enum('status', ['pending', 'waiting', 'translated', 'deleted'])->default('pending');
+            $table->boolean('verified')->default(false);
+
+            $table->unique(['source', 'language', 'context']);
+
+            $table->timestamp('sent_at')->nullable();
+            $table->timestamp('received_at')->nullable();
+
             $table->timestamps();
         });
     }

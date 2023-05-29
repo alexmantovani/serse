@@ -16,8 +16,12 @@ class TranslationFactory extends Factory
      */
     public function definition(): array
     {
+        $languages = ['en', 'fr', 'es', 'pt'];
         return [
-            //
+            'serial_number' => fake()->sentence(),
+            'language' => $languages[rand(0,3)],
+            'source' => fake()->sentence(),
         ];
+
     }
 }

@@ -138,7 +138,7 @@
 
         <div class="flex justify-between py-3">
             <x-outline-button class="">
-                <a href="{{ route('accredit.index') }}">
+                <a onclick="window.history.back();">
                     <i class="fa-solid fa-angle-left"></i> &nbsp;
                     Indietro
                 </a>

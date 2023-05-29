@@ -100,7 +100,7 @@
 
     <div class="py-8 md:flex px-32 justify-center">
         <div class="px-3">
-            <a href="{{ route('accredit.index') }}">
+            <a onclick="window.history.back();">
                 <x-outline-button class="">
                     <i class="fa-solid fa-angle-left"></i> &nbsp;
                     {{ __('Indietro') }}
