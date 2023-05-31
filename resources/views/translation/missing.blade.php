@@ -62,14 +62,14 @@
                 <table class="table-auto w-full my-6">
                     <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50 dark:bg-gray-700">
                         <tr>
-                            <th class="p-2 whitespace-nowrap">
+                            {{-- <th class="p-2 whitespace-nowrap">
                                 <div class="font-semibold text-left">
                                     <a
                                         href="{{ route('translation.missing', ['search' => $search,  'orderBy' => 'context', 'serial' => $serial]) }}">
                                         Contesto
                                     </a>
                                 </div>
-                            </th>
+                            </th> --}}
                             <th class="p-2 whitespace-nowrap">
                                 <div class="font-semibold text-left">
                                     <a
@@ -110,11 +110,11 @@
                     <tbody class="text-sm divide-y divide-gray-100 dark:divide-gray-800">
                         @foreach ($translations as $translation)
                             <tr class=" h-10">
-                                <td class="">
+                                {{-- <td class="">
                                     <div class="p-2">
                                         {{ $translation->context }}
                                     </div>
-                                </td>
+                                </td> --}}
                                 <td>
                                     <div class="group flex justify-between items-center">
                                         <div class="p-2">
@@ -160,20 +160,20 @@
                                         </div>
                                     </div> --}}
                                 </td>
-                                <td class="p-2 whitespace-nowrap dark:text-gray-300 ">
-                                    <img src="{{ url('flags/' . $translation->flagCode . '.svg') }}" alt=""
+                                <td class="p-2 whitespace-nowrap dark:text-gray-300">
+                                    <img src="{{ url('flags/' . $translation->flagCode . '.svg') }}" alt="AAA"
+                                    title="{{ $translation->language_name }}"
                                         class="h-5 w-10 object-cover pl-2 text-center">
-
                                 </td>
-                                {{-- @if (!isset($serialNumber))
+                                @if (!isset($serialNumber))
                                     <td>
-                                        <a href="{{ route('missing.index', ['matricola' => $translation->serial_number]) }}">
+                                        <a href="{{ route('translation.index', ['matricola' => $translation->serial_number]) }}">
                                             <div class="text-center dark:text-gray-300">
                                                 {{ $translation->serial_number }}
                                             </div>
                                         </a>
                                     </td>
-                                @endif --}}
+                                @endif
                                 <td class="p-2 w-20 text-center dark:text-gray-300 items-center uppercase text-xs">
                                     <div class="text-center"
                                         @if ($translation->status == 'waiting') title="Inviato {{ Carbon\Carbon::parse($translation->sent_at)->format('d.m.Y ') }}" @endif

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TranslationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('/translation')->group(function() {
     // Route::get('/index', [ContactController::class, 'index'])->middleware('auth:api');
     Route::post('/missing', [TranslationController::class, 'receiveMissing']);//TODO: ->middleware('auth:api');
+});
+
+Route::prefix('/message')->group(function() {
+    Route::get('/hash/{matricola}', [MessageController::class, 'hash']);
 });

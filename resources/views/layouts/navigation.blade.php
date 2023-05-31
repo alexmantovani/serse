@@ -48,6 +48,10 @@
                         </x-slot>
                     </x-dropdown>
 
+                    <x-nav-link :href="route('message.index')" :active="request()->routeIs('message.index')">
+                        {{ __('Messaggi') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 

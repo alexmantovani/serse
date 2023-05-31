@@ -9,8 +9,16 @@ class SerialNumber extends Model
 {
     use HasFactory;
 
-    public function missingTranslations() {
-        return $this->hasMany(MissingTranslation::class, 'serial_number', 'name');
+    protected $fillable = [
+        'name',
+    ];
+
+    public function translations() {
+        return $this->hasMany(Translation::class, 'serial_number', 'name');
+    }
+
+    public function messages() {
+        return $this->hasMany(Message::class, 'serial_number', 'name');
     }
 
 }

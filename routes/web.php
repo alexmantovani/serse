@@ -61,6 +61,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/translation/missing/{serial?}', [App\Http\Controllers\TranslationController::class, 'missing'])->name('translation.missing');
     Route::resource('/translation', App\Http\Controllers\TranslationController::class);
 
+    // Route::get('/message/hash/{matricola}', [App\Http\Controllers\MessageController::class, 'hash']);
+
+    Route::resource('/message', App\Http\Controllers\MessageController::class);
+
 });
 
 require __DIR__.'/auth.php';

@@ -4,14 +4,14 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Archivio Traduzioni') }}
             </h2>
-            <div>
+            {{-- <div>
                 <form method="GET" action="{{ route('translation.create') }}">
                     <x-primary-button class="ml-3" title="Aggiungi traduzione mancante">
                         <i class="fas fa-plus"></i> &nbsp;
                         {{ __('Aggiungi') }}
                     </x-primary-button>
                 </form>
-            </div>
+            </div> --}}
         </div>
     </x-slot>
 

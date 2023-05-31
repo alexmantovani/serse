@@ -86,16 +86,17 @@ class TranslationController extends Controller
     {
         $search = Request()->search ?? '';
         $orderBy = Request()->orderBy ?? 'source';
-        $translations = Translation::where(function ($q) use ($search) {
+        $translations = Translation::join('languages', 'languages.code', 'language')
+        ->select('translations.*', 'languages.name as language_name')
+        ->where(function ($q) use ($search) {
             return $q
                 ->where('source', 'like', '%' . $search . '%')
                 ->orWhere('destination', 'like', '%' . $search . '%')
                 ->orWhere('serial_number', 'like', '%' . $search . '%');
         })
-            ->whereIn('status', ['pending', 'waiting'])
-            ->orderBy($orderBy)
-            ->paginate(200);
-
+        ->whereIn('status', ['pending', 'waiting'])
+        ->orderBy($orderBy)
+        ->paginate(200);
         return view('translation.missing', compact('translations', 'search', 'orderBy', 'serial'));
     }
 

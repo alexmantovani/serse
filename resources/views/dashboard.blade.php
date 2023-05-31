@@ -54,7 +54,7 @@
                                         Traduzioni mancanti
                                     </div>
                                     <div class="text-center">
-                                        <a href="{{ route('missing.serial', $serialNumber) }}">
+                                        <a href="{{ route('translation.missing', $serialNumber) }}">
                                             <x-danger-button class="w-full justify-center ">
                                                 Dettagli
                                             </x-danger-button>

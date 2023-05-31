@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $totalMissing = 0;
         if ($serialNumber) {
             // Verifico quante traduzioni mi mancano
-            $totalMissing = $serialNumber->missingTranslations->where('status', '!=','pending')->count();
+            $totalMissing = $serialNumber->translations->where('status', '!=','pending')->count();
         }
 
         return view('dashboard', compact('search', 'serialNumber', 'totalMissing'));

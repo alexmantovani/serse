@@ -24,10 +24,10 @@ return new class extends Migration
             $table->enum('status', ['pending', 'waiting', 'translated', 'deleted'])->default('pending');
             $table->boolean('verified')->default(false);
 
-            $table->unique(['source', 'language', 'context']);
-
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('received_at')->nullable();
+
+            $table->unique(['source', 'language', 'context']);
 
             $table->timestamps();
         });

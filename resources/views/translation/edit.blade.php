@@ -13,10 +13,31 @@
         <div class="flex-1">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-8 flex-1">
                 <div class="flex justify-between">
-                    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                        {{-- {{ $translation->serial_number }} --}}
-                    </h2>
+                    <div class="pb-3">
+                        <x-input-label for="matricola" :value="__('Matricola')" />
+                        <h2 id="matricola" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                            {{ $translation->serial_number }}
+                        </h2>
+                    </div>
+                    <div>
+                        <x-input-label for="status" :value="__('Stato')" />
+                        <h2 id="status"
+                            class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight uppercase">
+                            {{ $translation->status }}
+                        </h2>
+
+                    </div>
                 </div>
+
+                @if (strlen($translation->context))
+                    <div>
+                        <x-input-label for="context" :value="__('Contesto')" />
+                        <x-text-input id="context" class="block mt-1 w-full" type="text" name="context"
+                            disabled="true" :value="$translation->context" />
+                        <x-input-error :messages="$errors->get('context')" class="mt-2" />
+
+                    </div>
+                @endif
 
                 <form method="post" action="{{ route('translation.update', $translation) }}" class="mt-6 space-y-6">
                     @csrf
@@ -26,7 +47,7 @@
                         <div class="flex items-end">
                             <div class="flex-none pr-3 pb-5">
                                 <img src="{{ url('flags/it.svg') }}" alt=""
-                                    class="h-7 w-13 object-cover pl-2 text-center">
+                                    class="h-7 w-12 object-cover pl-2 text-center">
                             </div>
 
                             <div class="py-3 flex-1">
@@ -40,7 +61,7 @@
                         <div class="flex items-end">
                             <div class="flex-none pr-3 pb-5">
                                 <img src="{{ url('flags/' . $translation->flagCode . '.svg') }}" alt=""
-                                    class="h-7 w-13 object-cover pl-2 text-center">
+                                    class="h-7 w-12 object-cover pl-2 text-center">
                             </div>
 
                             <div class="py-3 flex-1">

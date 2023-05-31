@@ -22,7 +22,7 @@ class LanguageSeeder extends Seeder
 
                 Language::create([
                     'code' => $code,
-                    'name' => $name[0],
+                    'name' => strtolower($name[0]),
                 ]);
             }
             fclose($handle);
